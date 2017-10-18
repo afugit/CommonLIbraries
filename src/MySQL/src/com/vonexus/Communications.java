@@ -47,7 +47,7 @@ public class Communications {
                 message.addRecipients(RecipientType.CC, String.valueOf(new InternetAddress(email.getCc())));
             }
             if (!email.getBcc().isEmpty()) {
-                message.addRecipients(RecipientType.BCC, String.valueOf(newInternetAddress(email.getBcc())));
+                message.addRecipients(RecipientType.BCC, String.valueOf(new InternetAddress(email.getBcc())));
             }
             message.setSubject(email.getSubject());
             message.setText(email.getBody());

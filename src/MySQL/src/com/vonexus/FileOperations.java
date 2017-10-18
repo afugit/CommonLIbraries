@@ -8,12 +8,15 @@
 
 package com.vonexus;
 
+import java.util.logging.Logger;
+
 /**
  * Operations that interact with the file system.  Opening and reading files,
  * making duplicate copies of files or folders, etc.
  */
 
 public class FileOperations {
+    private static final Logger LOGGER = Logger.getLogger(FileOperations.class.getName());
     /**
      * Gets the current working directory the application is running in.
      *

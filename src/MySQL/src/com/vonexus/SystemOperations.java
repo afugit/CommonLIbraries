@@ -9,11 +9,14 @@
 package com.vonexus;
 
 import java.util.Scanner;
+import java.util.logging.Logger;
 
 /**
  * TODO:  FIll me out.
  */
 public class SystemOperations {
+    private static final Logger LOGGER = Logger.getLogger(SystemOperations.class.getName());
+
     public String getInput() {
         Scanner reader = new Scanner(System.in);
         System.out.printf("Enter something: ");

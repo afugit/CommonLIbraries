@@ -28,7 +28,7 @@ public class Debugger extends Logger {
      *      messages for this logger.  May be null if none of the messages require
      *      localization.
      * @throws MissingResourceException if the resourceBundleName is non-null
-     *      andno corresponding resource can be found.
+     *                                  andno corresponding resource can be found.
      */
     protected Debugger(String name, String resourceBundleName) {
         super(name, resourceBundleName);

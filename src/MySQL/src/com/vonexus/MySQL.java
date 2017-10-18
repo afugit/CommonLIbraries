@@ -16,9 +16,6 @@ import java.util.logging.Logger;
 import java.sql.*;
 
 public class MySQL {
-    /**
-     * Start Logger
-     */
     private static final Logger LOGGER = Logger.getLogger(MySQL.class.getName());
 
     /**
