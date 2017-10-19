@@ -1,7 +1,7 @@
 /**
  * Provides simple interface for connecting to a MySQL database and executing
  * common queries.
- * <p>
+ *
  * Ported over from PHP project vexObj.
  *
  * @author Anthony M. Fugit
@@ -66,6 +66,7 @@ public class MySQL {
         this.setSqlPassword(sqlPassword);
         this.setSqlPort(sqlPort);
         this.setSqlReconnect(sqlReconnect);
+        this.setSqlSSL(sqlSSL);
 
         // jdbc:mysql://127.0.0.1:3306/scribo?autoReconnect=true&useSSL=false";
         this.setSqlConnection(String.format("jdbc:mysql://%s:%d/%s?autoReconnect=%s&useSSL=%s", sqlServer, sqlPort, sqlDatabase, sqlReconnect, sqlSSL));
@@ -110,25 +111,33 @@ public class MySQL {
         this.sqlConnection = sqlConnection;
     }
 
-    private String getSqlPort() {
+    private int getSqlPort() {
         return sqlPort;
     }
     private void setSqlPort(int sqlPort) {
         this.sqlPort = sqlPort;
     }
-
     private boolean getSqlReconnect() {
         return sqlReconnect;
-    )
-        private void setSqlReconnect(boolean sqlReconnect) {
-            this.sqlReconnect = sqlReconnect;
-        }
+    }
 
-    private void getSqlQuery() {
+    private void setSqlReconnect(boolean sqlReconnect) {
+        this.sqlReconnect = sqlReconnect;
+    }
+
+    private String getSqlQuery() {
         return sqlQuery;
     }
     private void setSqlQuery(String sqlQuery) {
         this.sqlQuery = sqlQuery;
+    }
+
+    private boolean getSqlSSL() {
+        return sqlSSL;
+    }
+
+    private void setSqlSSL(boolean sqlSSL) {
+        this.sqlSSL = sqlSSL;
     }
 
 
@@ -347,8 +356,9 @@ public class MySQL {
         String sqlServer = this.getSqlServer();
         String sqlDatabase = this.getSqlDatabase();
         String sqlConnection = this.getSqlConnection();
-        String sqlPort = this.getSqlPort();
-        String sqlReconnect = this.getSqlReconnect();
+        int sqlPort = this.getSqlPort();
+        boolean sqlReconnect = this.getSqlReconnect();
+        boolean sqlSSL = this.getSqlSSL();
         String sqlQuery = this.getSqlQuery();
 
 

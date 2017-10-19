@@ -1,0 +1,8 @@
+
+Ssquid:S1854"9Remove this useless assignment to local variable "input".(Èª”Çûÿÿÿÿ
+@squid:S1481"+Remove this unused "filler" local variable.(÷Ëšß
+bsquid:S1226"HIntroduce a new variable instead of reusing the parameter "destination".(Ä‡¨¹þÿÿÿÿ
+Dsquid:S1481"*Remove this unused "input" local variable.(Èª”Çûÿÿÿÿ
+Dsquid:S1068"*Remove this unused "LOGGER" private field.(à©Ê¤ýÿÿÿÿ
+Msquid:S2095"3Close this "FileInputStream" in a "finally" clause.(Èª”Çûÿÿÿÿ
+Osquid:S1854":Remove this useless assignment to local variable "filler".(÷Ëšß

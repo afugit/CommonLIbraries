@@ -1,0 +1,5 @@
+
+rsquid:S1450"VRemove the "matcher" field and declare it as a local variable in the relevant methods.(¥½³Ú8œã›§ó+
+rsquid:S1450"VRemove the "pattern" field and declare it as a local variable in the relevant methods.(¬ğ8œã›§ó+
+Fsquid:S1068"*Remove this unused "LOGGER" private field.(²¾äÄ8ç¦ó+
+|squid:S00115"ZRename this constant name to match the regular expression '^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$'.(ÀÍ®ìùÿÿÿÿ8â¿š§ó+

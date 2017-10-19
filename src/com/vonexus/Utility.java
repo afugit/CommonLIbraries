@@ -24,6 +24,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Utility {
+
     /**
      * Start logger
      */
@@ -71,8 +72,7 @@ public class Utility {
     }
 
     public void sendMail(String to, String from, String subject, String body, String smtp, String cc, String bcc) {
-        EmailObj eObj = new EmailObj();
-        eObj.config(to, from, subject, body, smtp, cc, bcc); // research why this couldn't have been a constructor.  had several issues and .config() was the workaround
+        EmailObj eObj = new EmailObj(to, from, subject, body, smtp, cc, bcc);
 
         try {
             Properties properties = System.getProperties();
