@@ -1,9 +1,11 @@
 /**
- * File and directory operations to make Main code a lot cleaner.  Contains
- * FIle IO functions to help prevent building long strings.
+ * Miscellaneous utilities that are commonly used.  Though shortcuts, these
+ * methods should never be used in writing a formal class.  Every class should
+ * be independant of one another, so no relying on this.  SHould only be
+ * utilized in main().
  *
  * @author Anthony M. Fugit
- * @version 0.1.20171018
+ * @version 0.1.20171019
  */
 
 package com.vonexus;
@@ -11,21 +13,18 @@ package com.vonexus;
 import java.util.Scanner;
 import java.util.logging.Logger;
 
-/**
- * TODO:  FIll me out.
- */
-public class SystemOperations {
+public class Utility {
     /**
      * Start logger
      */
 
-    private static final Logger LOGGER = Logger.getLogger(SystemOperations.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(Utility.class.getName());
 
     /**
      * When not using a public constructor, create a private one:
      */
 
-    private SystemOperations() {
+    private Utility() {
         throw new IllegalStateException("Utility class");
     }
 

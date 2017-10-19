@@ -6,24 +6,31 @@
  *
  * @author Anthony M. Fugit
  * @version 0.1.20171010
+ *
+ * @backlog Review lines 141-149
+ * @backlog Review lines 170-178
  */
 
 package com.vonexus;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static java.util.logging.Level.*;
+
 public class MySQL {
+    /**
+     * Start logger
+     */
+
     private static final Logger LOGGER = Logger.getLogger(MySQL.class.getName());
 
     /**
      * Class Variables to store configuration and debugging information in.
      */
+
     private String sqlServer = "";
     private String sqlDatabase = "";
     private String sqlUsername = "";
@@ -75,58 +82,59 @@ public class MySQL {
     private String getSqlServer() {
         return sqlServer;
     }
-
     private void setSqlServer(String sqlServer) {
         this.sqlServer = sqlServer;
     }
-
     private String getSqlDatabase() {
         return sqlDatabase;
     }
-
     private void setSqlDatabase(String sqlDatabase) {
         this.sqlDatabase = sqlDatabase;
     }
-
     private String getSqlUsername() {
         return sqlUsername;
     }
-
     private void setSqlUsername(String sqlUsername) {
         this.sqlUsername = sqlUsername;
     }
-
     private String getSqlPassword() {
         return sqlPassword;
     }
-
     private void setSqlPassword(String sqlPassword) {
         this.sqlPassword = sqlPassword;
     }
-
     private String getSqlConnection() {
         return sqlConnection;
     }
-
     private void setSqlConnection(String sqlConnection) {
         this.sqlConnection = sqlConnection;
     }
 
+    private String getSqlPort() {
+        return sqlPort;
+    }
     private void setSqlPort(int sqlPort) {
         this.sqlPort = sqlPort;
     }
 
-    private void setSqlReconnect(boolean sqlReconnect) {
-        this.sqlReconnect = sqlReconnect;
-    }
+    private boolean getSqlReconnect() {
+        return sqlReconnect;
+    )
+        private void setSqlReconnect(boolean sqlReconnect) {
+            this.sqlReconnect = sqlReconnect;
+        }
 
+    private void getSqlQuery() {
+        return sqlQuery;
+    }
     private void setSqlQuery(String sqlQuery) {
         this.sqlQuery = sqlQuery;
     }
 
+
     /**
      * Open database with the parameters passed from constructor.
-     **/
+     */
 
     private void openDB() {
         try {
@@ -134,9 +142,9 @@ public class MySQL {
 
             // connect to msyql database and execute query
             Connection conn = DriverManager.getConnection(this.getSqlConnection(), this.getSqlUsername(), this.getSqlPassword());
-            LOGGER.log(Level.INFO, "Opened database successfully: " + this.getSqlServer() + " > " + this.getSqlDatabase());
+            LOGGER.log(INFO, "Opened database successfully: " + this.getSqlServer() + " > " + this.getSqlDatabase());
         } catch (Exception e) {
-            LOGGER.log(Level.SEVERE, e.getMessage());
+            LOGGER.log(SEVERE, e.getMessage());
         }
     }
 
@@ -159,12 +167,12 @@ public class MySQL {
             // Class.forName("com.mysql.jdbc.Driver"); may not need this, perhaps required to build cSqlObj which is done already.
 
             if (stmt.execute(query)) {
-                LOGGER.log(Level.INFO, "Query Ran: " + query);
+                LOGGER.log(INFO, "Query Ran: " + query);
             }
             stmt.close();
         } catch (Exception e) {
-            LOGGER.log(Level.SEVERE, "Query Failed: " + query);
-            LOGGER.log(Level.SEVERE, e.getMessage());
+            LOGGER.log(SEVERE, "Query Failed: " + query);
+            LOGGER.log(SEVERE, e.getMessage());
         }
     }
 
@@ -188,13 +196,13 @@ public class MySQL {
             // Class.forName("com.mysql.jdbc.Driver");
 
             rs = stmt.executeQuery(query);
-            LOGGER.log(Level.INFO, "Query Ran: " + query);
+            LOGGER.log(INFO, "Query Ran: " + query);
             stmt.close();
             return rs;
         } catch (Exception e) {
             rs = null;
-            LOGGER.log(Level.SEVERE, "Query Failed: " + query);
-            LOGGER.log(Level.SEVERE, e.getMessage());
+            LOGGER.log(SEVERE, "Query Failed: " + query);
+            LOGGER.log(SEVERE, e.getMessage());
         }
 
         return rs;
@@ -211,7 +219,7 @@ public class MySQL {
 
     public ResultSet getFromDatabase(String table) {
         if (table.isEmpty()) {
-            LOGGER.log(Level.WARNING, "Query Warning:  Missing table parameter");
+            LOGGER.log(WARNING, "Query Warning:  Missing table parameter");
         }
         ResultSet rs = this.getFromDatabase(table, "WHERE 1"); //overload
         return rs;
@@ -219,7 +227,7 @@ public class MySQL {
 
     public ResultSet getFromDatabase(String table, String where) {
         if (table.isEmpty() || where.isEmpty()) {
-            LOGGER.log(Level.WARNING, "Query Warning:  Missing table or where parameter");
+            LOGGER.log(WARNING, "Query Warning:  Missing table or where parameter");
         }
         ResultSet rs = this.getFromDatabase(table, where, "*"); //overload
         return rs;
@@ -230,7 +238,7 @@ public class MySQL {
         ResultSet rs;
 
         if (table.isEmpty() || where.isEmpty() || columns.isEmpty()) {
-            LOGGER.log(Level.SEVERE, "Query Error:  Missing table, query, or columns; not executed > " + query);
+            LOGGER.log(SEVERE, "Query Error:  Missing table, query, or columns; not executed > " + query);
         }
         query = String.format("SELECT %s FROM %s WHERE %s", columns, table, where);
         rs = this.runQuery(query);
@@ -239,12 +247,33 @@ public class MySQL {
     }
 
     /**
+     * Prints out friendly version of ResultSet received by getFromDatabase, ResultQuery, etc.
+     *
+     * @param rs ResultSet to parse through, normally through getFromDatabase() results
+     */
+
+    public void debug(ResultSet rs) throws SQLException {
+        ResultSetMetaData rsmd = rs.getMetaData();
+        LOGGER.log(Level.INFO, this.getSqlQuery());
+
+        int columnsNumber = rsmd.getColumnCount();
+        while (rs.next()) {
+            for (int i = 1; i <= columnsNumber; i++) {
+                if (i > 1)
+                    LOGGER.log(Level.INFO, ", ");
+                String columnValue = rs.getString(i);
+                LOGGER.log(Level.INFO, columnValue + "=" + rsmd.getColumnName(i));
+            }
+        }
+    }
+
+    /**
      * Inserting a hashmap of data into table
      *
      * @param table targeted database table
      * @param data  map of data to insert into table.  for now this is one at a
      *              time but perhaps later will update to support 2d arrays to insert
-     *              multiple records with one query.
+     *              multiple re one query.
      */
 
     public void insertIntoTable(String table, HashMap<String, String> data) { // INSERT INTO table_name (column1, column2, column3, ... ) VALUES (value1, value2, value3, ...)
@@ -290,31 +319,39 @@ public class MySQL {
     }
 
     /**
-     * Delete data from database.
-     * <p>
-     * TODO:  where clause will be optional as a way to purge a table, but may
-     * create separate meothod for it.
+     * Delete data from database using where clause  No overloading to
+     * this.purgeTable() to prevent accidental deletion of data.
      *
      * @param table targeted database table
      * @param where (optional) which records should be deleted
+     *
+     * @see this.purgeTable();
      */
 
-    public void deleteFromDatabase(String table) {
-        this.deleteFromDatabase(table, "");
+    public void deleteFromDatabase(String table, String where) {
+        String query = String.format("DELETE FROM %s WHERE %s", table, where);
+        this.executeQuery(query);
     }
 
-    public void deleteFromDatabase(String table, String where) {
+    /**
+     * Purges entire table and contents, resets AI to 1
+     *
+     * @param table
+     */
+    public void purgeTable(String table) {
         String query = String.format("DELETE FROM %s", table);
-
-        if (!where.isEmpty()) {
-            query.concat(String.format(" WHERE %s", where));
-        }
-
         this.executeQuery(query);
     }
 
     public void debug(Exception e) {
-        e.getMessage();
-        e.getStackTrace();
+        String sqlServer = this.getSqlServer();
+        String sqlDatabase = this.getSqlDatabase();
+        String sqlConnection = this.getSqlConnection();
+        String sqlPort = this.getSqlPort();
+        String sqlReconnect = this.getSqlReconnect();
+        String sqlQuery = this.getSqlQuery();
+
+
     }
+
 }

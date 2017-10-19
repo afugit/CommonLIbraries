@@ -22,9 +22,18 @@ import java.util.logging.Logger;
 public class FileOperations {
 
     /**
-     * Begin logger
+     * Start logger
      */
+
     private static final Logger LOGGER = Logger.getLogger(FileOperations.class.getName());
+
+    /**
+     * When not using a public constructor, create a private one:
+     */
+
+    private FileOperations() {
+        throw new IllegalStateException("Utility class");
+    }
 
     /**
      * Overloaded method allowing user to specify a filter
