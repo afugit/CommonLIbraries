@@ -46,10 +46,14 @@ public class Utility {
      * @return user response
      */
 
-    public String getInput(String prompt) {
+    public static String getInput(String prompt) {
         Scanner reader = new Scanner(System.in);
         System.out.printf(prompt);
         return reader.next();
+    }
+
+    public static void echo(String output) {
+        System.out.print(output);
     }
 
     /**
@@ -63,15 +67,17 @@ public class Utility {
      * @param cc      carbon copy
      * @param bcc     blind carbon copy
      */
-    public void sendMail(String to, String from, String subject, String body) {
+
+    /* think smtp server is required, localhost didn't work in testing
+    public static void sendMail(String to, String from, String subject, String body) {
         sendMail(to, from, subject, body, "localhost");
     }
-
-    public void sendMail(String to, String from, String subject, String body, String smtp) {
+    */
+    public static void sendMail(String to, String from, String subject, String body, String smtp) {
         sendMail(to, from, subject, body, smtp, null, null);
     }
 
-    public void sendMail(String to, String from, String subject, String body, String smtp, String cc, String bcc) {
+    public static void sendMail(String to, String from, String subject, String body, String smtp, String cc, String bcc) {
         EmailObj eObj = new EmailObj(to, from, subject, body, smtp, cc, bcc);
 
         try {
